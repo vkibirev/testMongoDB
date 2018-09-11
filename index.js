@@ -1,6 +1,17 @@
 const mongo = require('mongodb');
 const url = 'mongodb://127.0.0.1:27017';
 
+//async/await realisation of connection and getting data from mongoDB
+
+async function main() {
+    const connection = await mongo.connect(url, {useNewUrlParser: true});
+    const db = await connection.db('check');
+    const col = db.collection('users');
+    const result = await col.find().toArray();
+    console.log(result);    
+}
+main();
+
 //Promises realisation of connection and getting data from mongoDB
 // const connection = mongo.connect(url,
 //                                 {useNewUrlParser: true}
@@ -50,11 +61,11 @@ const url = 'mongodb://127.0.0.1:27017';
 //Functions that are needed for realising of connection, 
 //creating new data and showing this data (mongoDB)
 //using CALLBACKS
-const connection = mongo.connect(url, 
-                                {useNewUrlParser: true},
-                                onConnect);
+// const connection = mongo.connect(url, 
+//                                 {useNewUrlParser: true},
+//                                 onConnect);
 
-function onConnect(err, client) {
+// function onConnect(err, client) {
     //-------------------------------------------------------------------------------
     //Creating the new object of the class - DB
     // const dbTemplate = new DB('check', 'users', client);
@@ -63,27 +74,28 @@ function onConnect(err, client) {
     // const collection = dbTemplate.selectDBCollection();
     //-------------------------------------------------------------------------------
 
-    const db = client.db('check');
-    const collection = db.collection('users');
+    // const db = client.db('check');
+    // const collection = db.collection('users');
 
-    collection.insertMany([
-        {name: 'Sergey', age: 1, xxx: ['a', 'b']},
-        {name: 'Andrey', age: 10, xxx: []},
-        {name: 'Lena', age: 20, xxx: ['b']},
-        {name: 'Gena', age: 20, xxx: ['a', 'c']},
-    ], onInsert); 
-    collection.find(onFound);
-}
+    // collection.insertMany([
+    //     {name: 'Sergey', age: 1, xxx: ['a', 'b']},
+    //     {name: 'Andrey', age: 10, xxx: []},
+    //     {name: 'Lena', age: 20, xxx: ['b']},
+    //     {name: 'Gena', age: 20, xxx: ['a', 'c']},
+    // ], onInsert); 
+//     collection.find(onFound);
+     
+// }
 
-function onFound(err, cursor) {
-    console.log(cursor.toArray(onArrayConverted));    
-}
+// function onFound(err, cursor) {
+//     console.log(cursor.toArray(onArrayConverted));    
+// }
 
-function onArrayConverted(err, data) {
-    console.log(data);    
-}
+// function onArrayConverted(err, data) {
+//     console.log(data);    
+// }
 
-function onInsert(err, result) {
-    console.log(err);        
-}
+// function onInsert(err, result) {
+//     console.log(err);        
+// }
 //-------------------------------------------------------------------------------
